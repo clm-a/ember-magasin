@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Magasin</title>
+    <link rel="stylesheet" href="foundation.min.css" />
+    <!--<script src="js/vendor/modernizr.min.js"></script>-->
+  </head>
+  <body>
+    <script type="text/x-handlebars" data-template-name="application">
+      <div>
+        <div class="row">
+          <div class="small-12 columns" style="background-color:pink">
+            <h1>Magasin</h1>
+            {{#if currentOrder }}
+              {{render "currentOrder" currentOrder}}
+            {{/if}}
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="small-12 columns" style="background-color:pink">
+            {{outlet}}
+          </div>
+        </div>
+        <div class="row">
+          <div class="small-12 columns" style="background-color:pink">
+            {{#if currentOrder}}
+              <button {{action cancelCurrentOrder}}>J'annule ma commande</button>
+            {{/if}}
+          </div>
+        </div>
+        <div class="row">
+          <div class="small-12 columns" style="background-color:pink">
+            <p>2014, Magasin</p>
+          </div>
+        </div>
+      </div>
+    </script>
+    <script type="text/x-handlebars" data-template-name="ordering">
+      <div>
+        {{#link-to 'index'}}Home{{/link-to}}
+        {{yield}}
+      </div>
+    </script>
+    
+    
+    
+    
+    
+    <script type="text/x-handlebars" data-template-name="orders/current">
+        
+    </script>
+    
+
+
+
+    <script type="text/x-handlebars" data-template-name="currentOrder">
+      <div>
+        {{ id }} - {{name}}<br />
+        Panier :
+        {{render "lineItems" cart}}
+      </div>
+    </script>
+
+
+
+    <script type="text/x-handlebars" data-template-name="lineItems">
+      <ul>
+        {{#each itemController="orderLine"}}
+          <li>{{name}} : {{quantity}} <button class="tiny" {{action 'decrement' }}>-</button> <button class="tiny" {{action 'increment'}}>+</button></li>
+        {{/each}}
+      </ul>
+
+    </script>
+
+
+
+    <script type="text/x-handlebars" data-template-name="orders/index">
+      <div>
+        {{#each}}
+          Commande {{id}}<br />
+          Passée {{finalizedAgoInWords}}<br />
+          Panier :
+          <ul>
+          {{#each item in cart}}
+            <li>{{item.name}}</li>
+          {{/each}}
+          </ul>
+          <hr />
+        {{/each}}
+      </div>
+    </script>
+
+
+
+    <script type="text/x-handlebars" data-template-name="index">
+      {{#unless controllers.application.currentOrder }}    
+        <div>
+          <button {{action createOrder}}>Je commence ma commande</button>
+        </div>
+      {{else}}
+
+        <button {{action 'addItem'}}>Add</button>
+
+      {{/unless}}
+
+    </script>
+
+    <script src="js/libs/jquery-1.10.2.min.js"></script>
+    <script src="js/libs/handlebars-1.0.0.js"></script>
+    <script src="js/libs/moment-with-langs.js"></script>
+    <script src="js/libs/ember.js"></script>
+    <script src="js/libs/ember-data.js"></script>
+    <script src="js/libs/localstorage_adapter.js"></script>
+    <script src="js/application.js"></script>
+    <script src="js/router.js"></script>
+    <script src="js/models/order.js"></script>
+    <script src="js/models/order-line.js"></script>
+    <script src="js/controllers/order.js"></script>
+    <script src="js/controllers/order-line.js"></script>
+    <script src="js/controllers/application.js"></script>
+    <script src="js/controllers/index.js"></script>
+    <!--
+    <script src="js/foundation.min.js"></script>
+    <script>
+      $(document).foundation();
+    </script>
+    -->
+  </body>
+</html>
